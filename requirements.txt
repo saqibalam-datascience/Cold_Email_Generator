@@ -1,0 +1,11 @@
+langchain_groq
+langchain_community
+chromadb
+langchain_core
+dotenv
+streamlit
+uuid
+bs4
+PyMuPDF
+ipykernel
+python-dotenv
