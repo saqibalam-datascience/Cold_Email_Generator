@@ -1,12 +1,11 @@
-import os
 from langchain_groq import ChatGroq
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 
 load_dotenv()
 
-def get_llm(groq_api):
-    llm = ChatGroq(temperature=0, groq_api_key=groq_api, model_name="llama-3.3-70b-versatile")
+def get_llm(groq_api, llm_model):
+    llm = ChatGroq(temperature=0, groq_api_key=groq_api, model_name=llm_model)
     return llm
 
 def resume_extractor(resume_text, llm):
@@ -84,15 +83,15 @@ def get_template(job_description, resume_KTs, llm):
 
     Note : Maximum 250 words in the cover letter.
     Note : Not write anything exagerated from candidate professional details.
-    Note : Focus on quantitative value to express my projects relevant to job description.
+    Note : Heavily Focus on quantitative facts & figures in candidate details to express my projects relevant to job description.
     Note : Don't use bulletins, use 2 paragraph.
-    Note : Contact details should be like, in the  very end
+    Note : Contact details should be like, in the very end
 
     <Name>
     <Email>
     <Phone Number>
 
-    NO PREAMBLE & Keep everything short, crisp and to the point.
+    NO PREAMBLE & Hellucination, Keep everything short, crisp and to the point.
     ''')
 
     template_chain = template_prompt | llm

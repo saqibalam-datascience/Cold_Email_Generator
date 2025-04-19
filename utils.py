@@ -14,3 +14,7 @@ def pdf_extractor(file):
     for page in doc:
         text += page.get_text()
     return text
+
+# def deepseek_cleaning(cover_letter):
+#     cover_letter = cover_letter.split('</think>')[1]
+#     return cover_letter

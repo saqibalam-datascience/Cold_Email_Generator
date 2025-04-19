@@ -2,7 +2,7 @@ import streamlit as st
 from langchain_community.document_loaders import WebBaseLoader
 
 from chains import get_website_jd, get_llm, resume_extractor, get_template
-from utils import clean_text, pdf_extractor
+from utils import clean_text, pdf_extractor, deepseek_cleaning
 
 
 def create_streamlit_app():
@@ -16,8 +16,14 @@ def create_streamlit_app():
     # Upload Resume
     resume_file = st.file_uploader("Upload your Resume (PDF only)", type=['pdf'])
     
+    # LLM Model Selection
+    llm_models_names = ['deepseek-r1-distill-llama-70b','llama-3.3-70b-versatile','gemma2-9b-it']
+    llm_model = st.selectbox("LLM Model Selection",llm_models_names)
+
     # Mode Selection
     input_mode = st.selectbox("Select Input Mode", ['Job Description', 'Job URL'])
+
+    
 
     job_input = ""
     if input_mode == 'Job Description':
@@ -32,7 +38,7 @@ def create_streamlit_app():
             if job_input is None:
                 st.error("Please Enter a Job Description or URL.")
                 st.stop()
-            llm = get_llm(api_key)
+            llm = get_llm(api_key,llm_model)
 
             if resume_file is not None:
                 # Extract text from the uploaded PDF resume
@@ -58,6 +64,9 @@ def create_streamlit_app():
                     st.error("Please enter a Job Description.")
             
             cover_letter = get_template(cleaned_jd, resume_KTs, llm)
+
+            # if llm_model == 'deepseek-r1-distill-llama-70b':
+            #     cover_letter = deepseek_cleaning(cover_letter)
             st.text(cover_letter)
 
 
